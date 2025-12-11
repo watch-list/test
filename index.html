@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZigZag Prompts</title>
+    <title>PromptVault</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Fonts: Unbounded (Y2K style), Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Unbounded:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Unbounded:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -120,7 +120,7 @@
         const App = () => {
             // --- STORAGE LOGIC ---
             const [prompts, setPrompts] = useState(() => {
-                const saved = localStorage.getItem('zigZagPrompts_v2'); // Changed key to v2
+                const saved = localStorage.getItem('zigZagPrompts_v2'); 
                 if (saved) {
                     return JSON.parse(saved);
                 } else {
@@ -239,8 +239,9 @@
 
                                 <div className="p-6 space-y-4">
                                     <div className="flex flex-col items-center justify-center gap-2 mb-2">
-                                         <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center overflow-hidden border border-white/10">
-                                            <span className="font-y2k text-xs">ZZ</span> 
+                                         {/* Updated Logo in Modal */}
+                                         <div className="w-12 h-12 rounded-lg bg-black/20 flex items-center justify-center overflow-hidden border border-white/10">
+                                            <img src="https://i.postimg.cc/d36yztYk/image-(2).png" alt="Logo" className="w-full h-full object-cover" />
                                          </div>
                                          <h1 className="text-2xl font-y2k font-bold text-center">{activePrompt.title}</h1>
                                     </div>
@@ -283,13 +284,15 @@
 
             return (
                 <div className="min-h-screen pb-20 p-4 md:p-6 max-w-7xl mx-auto">
-                    {/* Mobile Header */}
+                    {/* Mobile Header - Updated Logo & Title */}
                     <header className="flex justify-between items-center mb-6 sticky top-0 z-40 bg-[#050505]/80 backdrop-blur-md py-4 -mx-4 px-4 border-b border-white/5">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-white rounded flex items-center justify-center text-black font-y2k font-bold text-lg">
-                                Z
-                            </div>
-                            <span className="text-lg font-y2k tracking-tight">ZigZag</span>
+                            <img 
+                                src="https://i.postimg.cc/d36yztYk/image-(2).png" 
+                                alt="PromptVault" 
+                                className="w-10 h-10 object-contain rounded-lg"
+                            />
+                            <span className="text-2xl font-y2k font-bold tracking-tight">PromptVault</span>
                         </div>
                         <button 
                             onClick={() => setView('add')}
