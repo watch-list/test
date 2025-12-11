@@ -43,15 +43,15 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .glass-button {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(4px);
+        /* Darker Buttons for the Card Actions */
+        .action-button {
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.2s ease;
         }
-
-        .glass-button:active {
-            transform: scale(0.98);
+        .action-button:active {
+            transform: scale(0.96);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Hide scrollbar */
@@ -94,13 +94,15 @@
 
         // --- Components ---
 
-        const Tag = ({ category }) => {
+        const Tag = ({ category, className }) => {
             let colorClass = "text-white";
             let dotColor = "bg-white";
+            let borderColor = "border-white/10";
 
             if (category === 'NanoBanana') {
                 colorClass = "text-yellow-400";
                 dotColor = "bg-yellow-400";
+                borderColor = "border-white/10"; 
             } else if (category === 'Midjourney') {
                 colorClass = "text-blue-400";
                 dotColor = "bg-blue-400";
@@ -110,9 +112,9 @@
             }
 
             return (
-                <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-full border border-white/10 w-fit shrink-0">
-                    <span className={`w-2 h-2 rounded-full ${dotColor}`}></span>
-                    <span className={`text-[10px] font-y2k font-bold uppercase tracking-wider ${colorClass}`}>{category}</span>
+                <div className={`flex items-center justify-start gap-2 bg-white/5 px-3 py-2.5 rounded-xl border ${borderColor} ${className}`}>
+                    <span className={`w-2 h-2 rounded-full shrink-0 ${dotColor}`}></span>
+                    <span className={`text-[10px] font-y2k font-bold uppercase tracking-wider truncate ${colorClass}`}>{category}</span>
                 </div>
             );
         };
@@ -243,7 +245,7 @@
                                          <h1 className="text-2xl font-y2k font-bold text-center">{activePrompt.title}</h1>
                                     </div>
 
-                                    <div className="flex justify-center"><Tag category={activePrompt.category} /></div>
+                                    <div className="flex justify-center"><Tag category={activePrompt.category} className="rounded-full px-4" /></div>
                                     
                                     <div className="glass-panel p-4 rounded-xl mt-4">
                                         <p className="text-gray-300 text-sm leading-relaxed font-light">
@@ -335,7 +337,7 @@
                         )}
                         {filteredPrompts.map(item => (
                             <div key={item.id} className="flex flex-col group">
-                                {/* Card Image Area (Tag Removed from inside) */}
+                                {/* Card Image Area */}
                                 <div 
                                     onClick={() => { setActivePrompt(item); setView('full'); }}
                                     className="glass-panel rounded-3xl overflow-hidden aspect-ratio-4-5 relative cursor-pointer active:opacity-90 transition-all border border-white/5 group-hover:border-white/20"
@@ -354,26 +356,30 @@
                                     </div>
                                 </div>
 
-                                {/* Controls Row: Tag + Buttons (Now below the card) */}
-                                <div className="flex items-center gap-2 mt-2 px-1">
-                                    <Tag category={item.category} />
+                                {/* FIXED CONTROL ROW: Grid with 50% for Tag, 50% for buttons */}
+                                <div className="grid grid-cols-2 gap-2 mt-3 items-stretch h-10">
                                     
-                                    <div className="flex-1 flex gap-2 justify-end">
+                                    {/* Left: Category Tag (Takes full left column) */}
+                                    <Tag category={item.category} className="w-full h-full" />
+                                    
+                                    {/* Right: Buttons (Split right column) */}
+                                    <div className="flex gap-2 h-full">
                                         <button 
                                             onClick={() => { setActivePrompt(item); setView('edit'); }}
-                                            className="px-4 py-2 rounded-xl glass-button flex items-center justify-center gap-2 text-[10px] text-gray-300 hover:text-white"
+                                            className="flex-1 action-button rounded-xl flex items-center justify-center gap-2 text-[10px] text-gray-300 hover:text-white"
                                         >
                                             <i data-lucide="edit-3" className="w-3 h-3"></i>
                                             Edit
                                         </button>
                                         <button 
                                             onClick={() => sharePrompt(item.id)}
-                                            className="px-4 py-2 rounded-xl glass-button flex items-center justify-center gap-2 text-[10px] text-gray-300 hover:text-white"
+                                            className="flex-1 action-button rounded-xl flex items-center justify-center gap-2 text-[10px] text-gray-300 hover:text-white"
                                         >
                                             <i data-lucide="share-2" className="w-3 h-3"></i>
                                             Share
                                         </button>
                                     </div>
+
                                 </div>
                             </div>
                         ))}
